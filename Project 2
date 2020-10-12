@@ -478,7 +478,16 @@ namespace Task1
                 Random random = new Random();
                 return (random.Next(Num1, Num2));
 
-            }
+            } 
+              //Question 2.2 
+            public Gold(int xpos_, int ypos_)
+            {
+                xPos = xpos_;
+                yPos = ypos_;
+                Random random = new Random();
+                xPos = (random.Next(1, 5));
+                yPos = (random.Next(1, 5)); 
+
             
         }
     }
