@@ -459,7 +459,20 @@ namespace Task1
     }
 
 
+      public class Gold : Item 
+        {
+          private int gold;
+            
+            //Random Gold Object 
+            private int rndGold(int Num1, int Num2)
+            {
 
+                Random random = new Random();
+                return (random.Next(Num1, Num2));
+
+            }
+
+        }
 
 
   
