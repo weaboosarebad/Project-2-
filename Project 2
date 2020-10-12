@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Task1
 {   
@@ -296,6 +299,35 @@ namespace Task1
             }
                 
         }
+
+        //Question 3.3 Task 2 Enemy Movement 
+        public void enemyMovement(Movement _enemyMovement)
+        {
+            switch (_enemyMovement)
+            {
+                case Movement.Up:
+                    yPos = yPos + 1;
+                    break;
+                case Movement.Down:
+                    yPos = yPos - 1;
+                    break;
+                case Movement.Left:
+                    xPos = xPos - 1;
+                    break;
+                case Movement.Right:
+                    xPos = xPos + 1;
+                    break;
+                //No Movement Question 2.3 Task 2 
+                case Movement.noMovement:
+                    break;
+            }
+        } 
+
+        public void EnemyAttacks()
+        {
+
+        }
+
         //Task 2 Question 3.2 
         public int goldPurse; 
      public void Pickup(TileType _typeOfTile)
@@ -391,17 +423,20 @@ namespace Task1
             //TO String 
             public override string ToString()
             {
-                return "Player Stats:" + "\n" + "HP: " + healthPoints + "/" + maximumHealth + "\n" + "Damage: 2" + "\n" + "[" + xPos + "," + yPos +"]";
+                return "Player Stats:" + "\n" + "HP: " + healthPoints + "/" + maximumHealth + "\n" + "Damage: 2" + "\n" + "[" + xPos + "," + yPos +"]" + goldPurse;
             }
 
         }
 
-    }  
-     
-    //Question 3.1 Map class
-   public class Map
+    }
+
+    //Question 3.1 Map class 
+
+    [Serializable()]
+    public class Map
     {
-         //Random Number Generator
+        //Random Number Generator
+       public object Loader; 
         public int xMapSize;
         public int yMapSize;
         public int minX =10  ;
@@ -591,6 +626,27 @@ namespace Task1
 
         }
 
+        //Saving And Loading 
+        static void Save()
+        {
+            FileStream stream = new FileStream("MapClass.bin", FileMode.Create);
+            BinaryFormatter write = new BinaryFormatter();
+
+            Map map = new Map();
+
+            write.Serialize(stream, map);
+            stream.Close();
+        }
+        static void Load()
+        {
+            FileStream stream;
+            BinaryFormatter write = new BinaryFormatter();
+            stream = File.OpenRead("MapClass.bin");
+            Map map = new Map();
+            stream = File.OpenRead("MapClass.bin");
+            map.Loader = write.Deserialize(stream);
+
+        }
 
 
 
@@ -776,6 +832,8 @@ namespace Task1
         {
 
         }
+      
+        
         
     }
 
