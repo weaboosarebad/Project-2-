@@ -1,4 +1,12 @@
-// Task 2 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Task1
 {   
@@ -212,7 +220,8 @@ namespace Task1
                 case Movement.Left: xPos = xPos - 1;
                     break;
                 case Movement.Right: xPos = xPos + 1;
-                    break;
+                    break; 
+                    //No Movement Question 2.3 Task 2 
                 case Movement.noMovement:
                     break;  
             }
@@ -433,70 +442,110 @@ namespace Task1
        
         
         
-        }
-
-        //Task 2 Begins here 
-
-        //Question 2.1 Item Class
-
-        public abstract class Item : Tile
-        { 
-
-            //Constructor 
-            public Item(int _xpos, int _ypos)
-            {
-                xPos = _xpos;
-                yPos = _ypos;
-                
-
-
-
-            }
-            public Item()
-            {
-              
-            }
-            // Question 2.1 Abstract To String method 
-
-          //  public abstract override string ToString();
-            
-                
-            
-        }
-    
-        public class Gold : Item 
+        } 
+       
+        
+        
+        
+        //Task 2 Question 2.3
+        class Mage : Enemy
         {
-          private int gold; 
-
-            //Public Accessor 
-
-            
-            //Random Gold Amount 
-            private int rndGold(int Num1, int Num2)
+            public Mage(int PosX, int PosY)
             {
-
-                Random random = new Random();
-                return (random.Next(Num1, Num2));
-
-            } 
-              //Question 2.2 
-            public Gold(int xpos_, int ypos_)
+                xPos = PosX;
+                yPos = PosY; 
+                 maximumHealth = 5;
+                    dmg = 5;
+            }
+            public int ReturnMove()
             {
-                xPos = xpos_;
-                yPos = ypos_;
-                Random random = new Random();
-                xPos = (random.Next(1, 5));
-                yPos = (random.Next(1, 5)); 
-
-            
+               return 0; 
+            }
+           public bool CheckRange( )
+            {
+                return true; 
+            }
+        
         }
+        
+    }
+
+    //Task 2 Begins here 
+
+    //Question 2.1 Item Class 
+    //Question 2.3 is above 
+
+    public abstract class Item : Tile
+    {
+
+        //Constructor 
+        public Item(int _xpos, int _ypos)
+        {
+            xPos = _xpos;
+            yPos = _ypos;
+
+
+
+
+        }
+        public Item()
+        {
+
+        }
+        // Question 2.1 Abstract To String method 
+
+        //  public abstract override string ToString();
+
+
+
+    }
+
+    public class Gold : Item
+    {
+        private int gold;
+
+        //Public Accessor 
+        public int _gold
+        {
+            get { return gold; }
+            set { gold = value; }
+        }
+
+        //Random Gold Amount 
+        private int rndGold(int Num1, int Num2)
+        {
+
+            Random random = new Random();
+            return (random.Next(Num1, Num2));
+
+
+        }
+        //Question 2.2 
+        public Gold(int xpos_, int ypos_)
+        {
+            xPos = xpos_;
+            yPos = ypos_;
+            Random random = new Random();
+            xPos = (random.Next(1, 5));
+            yPos = (random.Next(1, 5));
+
+        }
+
+
     }
 
 
 
 
 
-  
+
 
 
 }
+
+
+
+
+
+
+
