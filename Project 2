@@ -32,7 +32,74 @@ namespace Task1
             {
                 for (int y = 0; y <= map.yMapSize-1; y++)
                 {
+                    if (mapInstance[x, y].Tile_Type == Tile.TileType.Gold)
+                    {
+                        Label tileLabel = new Label();
 
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = "+";
+                    }
+                    if (mapInstance[x, y].Tile_Type == Tile.TileType.Goblin)
+                    {
+                        Label tileLabel = new Label();
+
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = "G";
+                    }
+                    if (mapInstance[x, y].Tile_Type == Tile.TileType.Hero)
+                    {
+                        Label tileLabel = new Label();
+
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = "H";
+                    }
+                    if (mapInstance[x, y].Tile_Type == Tile.TileType.Mage)
+                    {
+                        Label tileLabel = new Label();
+
+                        this.Controls.Add(tileLabel);
+
+
+                        tileLabel.Left = 20 * x;
+                        tileLabel.Top = 20 * y;
+
+                        tileLabel.ForeColor = Color.White;
+                        tileLabel.BackColor = Color.Black;
+
+                        tileLabel.Font = new Font("Arial", 15f);
+                        tileLabel.AutoSize = true;
+                        tileLabel.Text = "M";
+                    }
                     if (mapInstance[x, y].Tile_Type == Tile.TileType.Obstacle)
                     {
                         Label tileLabel = new Label();
@@ -103,7 +170,8 @@ namespace Task1
         public enum TileType
         {
             Hero,
-            Enemy,
+            Goblin,
+            Mage,
             Gold,
             Weapon, 
             Area, 
@@ -144,7 +212,8 @@ namespace Task1
                 y = _yPos;
             }
         }
-
+      
+    
     }
 
     //Question 2.2 
@@ -227,7 +296,17 @@ namespace Task1
             }
                 
         }
-        
+        //Task 2 Question 3.2 
+        public int goldPurse; 
+     public void Pickup(TileType _typeOfTile)
+        {
+            Gold gold = new Gold();
+            switch(_typeOfTile)
+            {
+                case TileType.Gold: goldPurse = gold.pubGold + 1;
+                    break; 
+            }
+        }   
         
         
         //Checking if character is dead 
@@ -240,18 +319,18 @@ namespace Task1
             else return false;
         }
         // Check Range
-        //public virtual bool CheckRange()
-        //{
-        //    if (DistanceTo() >= 1)
-        //    {
-        //        return true;
+     //   public virtual bool CheckRange()
+     //   {
+      //      if (DistanceTo() >= 1)
+     //       {
+     //           return true;
 
-        //    }
-        //    else return false;
-        //}
+     //       }
+     //       else return false;
+     //   }
 
 
-       // Check Distance
+        //Check Distance
         //private int DistanceTo()
         //{
         //    int characterYPos = 0;
@@ -259,19 +338,19 @@ namespace Task1
         //    int targetYPos = 0;
         //    int targetXPos = 0;
         //    int distanceY;
-        //    int distanceX; 
+        //    int distanceX;
         //    Map obj = new Map();
-           
-        //    for (int k = 0; k < obj.xMapSize-1; k++)
+
+        //    for (int k = 0; k < obj.xMapSize - 1; k++)
         //    {
-        //        for (int j = 0; j < obj.yMapSize-1; j++)
+        //        for (int j = 0; j < obj.yMapSize - 1; j++)
         //        {
-        //            if (obj.gameMap[k,j] = 'H' )
+        //            if (obj.gameMap[k, j] = 'H')
         //            {
         //                characterYPos = k;
         //                characterXPos = j;
         //            }
-        //            if (obj.gameMap[k, j] == 'G')
+        //            if (obj.gameMap[k, j] = 'G')
         //            {
         //                targetYPos = k;
         //                targetXPos = j;
@@ -330,6 +409,8 @@ namespace Task1
         public int maxX = 25 ;
         public int maxY = 25 ;
         public Tile[,] gameMap;
+        public Enemy[,] enemyMap;
+        public Item[,] itemMap; 
         public (int, int) RndMaxSize()
         {
             int xSize;
@@ -342,42 +423,171 @@ namespace Task1
 
 
 
-        }
-      
-       public Tile[,] MapGenerator()
+        } 
+
+        //Map Class Constructor 
+        public Map (int minX, int minY, int maxX, int maxY, int numberofEnemies, int gold)
         {
-            xMapSize = RndMaxSize().Item1;
-            yMapSize = RndMaxSize().Item2;
-            Tile[,] gameMap = new Tile[xMapSize, yMapSize] ; 
+            Gold gold1 = new Gold();
+           gold1.pubGold = gold;  
+        } 
+        public Map()
+        {
 
+        }
+        public void Create()
+        { 
+            Map map = new Map();
+            map.MapGenerator();
+            map.enemyMapGenerator();
+            Gold gold1 = new Gold();
+            
+            int goldXPos;
+            int goldYPos; 
+            //Question 3.1 Item Array
+           Item[,] itemGenerator() 
 
-            //Nested for loop for map generation 
-                
-            for (int x=0; x <= xMapSize-1; x++)
             {
-                for (int y=0; y <= yMapSize-1; y++)
+                Item item = new Item();
+                Item[,] itemMap = new Item[xMapSize, yMapSize];
+
+
+                for (int r = 0; r <= gold1.pubGold; r++)
                 {
-                   if (x==0 || x == xMapSize-1 || y==0 || y == yMapSize-1)
-                    {   
-                        //Generates Walls
-                        gameMap[x, y] = new Tile(x, y, Tile.TileType.Obstacle);
+                    Random rndGoldPos = new Random();
+                    goldXPos = rndGoldPos.Next(1, xMapSize);
+                    goldYPos = rndGoldPos.Next(1, yMapSize);
+
+
+                    itemMap[goldXPos, goldYPos] = new Item(goldXPos, goldYPos, gold1.pubGold);
+                    gameMap[goldXPos, goldYPos] = new Tile(goldXPos, goldYPos, Tile.TileType.Gold);
+
+
+                }
+                return itemMap; 
+
+                
+            }
+
+           
+
+            
+
+        }
+        //Question 3.2 Task 2 
+
+        public string GetItemAtPosition(int x, int y)
+        {
+            Map map = new Map();   
+
+
+            for (int xpos = 0; xpos <= xMapSize - 1; xpos++)
+            {
+                for (int ypos = 0; ypos <= yMapSize - 1; ypos++)
+                {
+                    if (itemMap[xpos, ypos].Tile_Type == Tile.TileType.Gold)
+                    {
+                        return "Gold";
+                        
 
                     }
 
-                    //Generates Area 
-                    else { gameMap[x, y] = new Tile(x, y, Tile.TileType.Area); }
-                    
+                    if (itemMap[xpos, ypos].Tile_Type == Tile.TileType.Weapon)
+                    {
+                        return "Weapon";
+
+
+
+                    }
+
 
 
 
 
                 }
-         
+
+            }
+            return null; 
+        }
+             
+           public Tile[,] MapGenerator()
+            {
+                xMapSize = RndMaxSize().Item1;
+                yMapSize = RndMaxSize().Item2;
+                Tile[,] gameMap = new Tile[xMapSize, yMapSize];
+
+
+                //Nested for loop for map generation 
+
+                for (int x = 0; x <= xMapSize - 1; x++)
+                {
+                    for (int y = 0; y <= yMapSize - 1; y++)
+                    {
+                        if (x == 0 || x == xMapSize - 1 || y == 0 || y == yMapSize - 1)
+                        {
+                            //Generates Walls
+                            gameMap[x, y] = new Tile(x, y, Tile.TileType.Obstacle);
+
+                        }
+
+                        //Generates Area 
+                        else { gameMap[x, y] = new Tile(x, y, Tile.TileType.Area); }
+
+
+
+
+
+                    }
+
+                }
+                Map map = new Map();
+                map.gameMap = gameMap;
+                return gameMap;
+
+            }
+            
+        
+        //Task 2 Question 3.1 Enemy Array
+        public Enemy[,] enemyMapGenerator()
+        {
+            int rng;
+            xMapSize = RndMaxSize().Item1;
+            yMapSize = RndMaxSize().Item2;
+            Enemy[,] enemyMap = new Enemy[xMapSize, yMapSize];
+
+            Random random = new Random();
+            rng = (random.Next(1, 10));
+            //Nested for loop for map generation 
+
+            for (int x = 0; x <= xMapSize - 1; x++)
+            {
+                for (int y = 0; y <= yMapSize - 1; y++)
+                {
+                    if (x == 0 || x == xMapSize - 1 || y == 0 || y == yMapSize - 1)
+                    {
+                        //RNG
+                       
+                        //Generates Goblin
+                        if (rng>3) { enemyMap[x, y] = new Enemy(x, y, 1, 10, "G"); }
+                        gameMap[x, y] = new Tile(x, y, Tile.TileType.Goblin); 
+
+                    }
+
+                    //Generates Mage
+                    else if (rng<3){ { enemyMap[x, y] = new Enemy(x, y, 5, 5, "M"); } }
+                    gameMap[x, y] = new Tile(x, y, Tile.TileType.Mage);
+
+
+
+
+
+                }
+
             }
             Map map = new Map();
-            map.gameMap = gameMap; 
-            return gameMap;
-           
+            map.enemyMap = enemyMap;
+            return enemyMap; 
+
 
         }
 
@@ -387,7 +597,7 @@ namespace Task1
     }
 
     //Question 2.4 Enemy Class
-    public abstract class Enemy : Character
+    public class Enemy : Character
     {
         
        
@@ -460,29 +670,61 @@ namespace Task1
             public int ReturnMove()
             {
                return 0; 
-            }
-           public bool CheckRange( )
-            {
-                return true; 
-            }
+            } 
+
+            //Overriden Check Range Method
+           //public bool CheckRange( )
+           // {
+           //     Map map = new Map();
+               
+                
+           //     Map obj = new Map();
+           //      //Loop Changes the Value Of M so it cycles through all 8 points available for a character
+              
+           //     for (int m =-1; m<2; m++)
+           //     {
+           //         if (obj.enemyMap[yPos + m, xPos - m] = '.')
+           //         {
+           //             return false; 
+           //         }
+           //         if (obj.enemyMap[yPos + m, xPos + m] = '.')
+           //         {
+           //             return false;
+           //         }
+           //         if (obj.enemyMap[yPos - m, xPos - m] = '.')
+           //         {
+           //             return false;
+           //         }
+           //         if (obj.enemyMap[yPos - m, xPos + m] = '.')
+           //         {
+           //             return false;
+           //         }
+                       
+           //     }
+
+           //     return true;
+
+           // }
         
         }
         
     }
 
-    //Task 2 Begins here 
+    
 
     //Question 2.1 Item Class 
     //Question 2.3 is above 
 
-    public abstract class Item : Tile
+    public class Item : Tile
     {
 
         //Constructor 
-        public Item(int _xpos, int _ypos)
+        public Item(int _xpos, int _ypos, int itemAmount) 
         {
             xPos = _xpos;
             yPos = _ypos;
+             
+
 
 
 
@@ -505,7 +747,7 @@ namespace Task1
         private int gold;
 
         //Public Accessor 
-        public int _gold
+        public int pubGold
         {
             get { return gold; }
             set { gold = value; }
@@ -526,12 +768,15 @@ namespace Task1
             xPos = xpos_;
             yPos = ypos_;
             Random random = new Random();
-            xPos = (random.Next(1, 5));
-            yPos = (random.Next(1, 5));
+            gold = (random.Next(1, 5));
+            
 
         }
+        public Gold()
+        {
 
-
+        }
+        
     }
 
 
